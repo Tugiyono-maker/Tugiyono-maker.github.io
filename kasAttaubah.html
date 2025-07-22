@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kas Musholla At-Taubah</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better aesthetics and responsiveness */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Prevent body scroll, content will scroll within its container */
+        }
+        .container-flex {
+            display: flex;
+            height: 100vh;
+        }
+        .main-content-area {
+            flex-grow: 1;
+            padding: 2rem;
+            background-color: #f9fafb; /* gray-50 */
+            overflow-y: auto; /* Enable scrolling for content */
+        }
+        /* Style for tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+        }
+        th {
+            background-color: #f9fafb; /* gray-50 */
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #6b7280; /* gray-500 */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .rounded-xl {
+            border-radius: 0.75rem;
+        }
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Hide scrollbar for aesthetic purposes, but allow scrolling */
+        .main-content-area::-webkit-scrollbar {
+            width: 8px;
+        }
+        .main-content-area::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .main-content-area::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .main-content-area::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Styles for messages */
+        .message-box {
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .message-box.success {
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-800 */
+            border: 1px solid #34d399; /* green-400 */
+        }
+        .message-box.error {
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+            border: 1px solid #f87171; /* red-400 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Login Page Container -->
+    <div id="login-page-container" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 to-emerald-500 p-4">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 hover:scale-105">
+            <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-8">Login Kas Musholla</h2>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+                        Username
+                    </label>
+                    <input
+                        type="text"
+                        id="username"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                        required
+                    />
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                        required
+                    />
+                </div>
+                <p id="login-error" class="text-red-600 text-sm text-center hidden"></p>
+                <button
+                    type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
+                >
+                    Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app-container" class="container-flex hidden">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 text-white flex flex-col p-6 rounded-r-xl shadow-lg">
+            <div class="text-2xl font-bold text-center mb-10 text-emerald-300">
+                Kas Musholla <br /> At-Taubah
+            </div>
+            <nav class="flex-grow">
+                <ul class="space-y-3">
+                    <li>
+                        <button id="nav-dashboard" class="w-full text-left py-3 px-4 rounded-lg flex items-center space-x-3 transition duration-200 ease-in-out hover:bg-gray-700 text-gray-300 hover:text-white">
+                            <span class="text-lg">📊</span><span>Dashboard</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="nav-pemasukan" class="w-full text-left py-3 px-4 rounded-lg flex items-center space-x-3 transition duration-200 ease-in-out hover:bg-gray-700 text-gray-300 hover:text-white">
+                            <span class="text-lg">💰</span><span>Pemasukan</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="nav-pengeluaran" class="w-full text-left py-3 px-4 rounded-lg flex items-center space-x-3 transition duration-200 ease-in-out hover:bg-gray-700 text-gray-300 hover:text-white">
+                            <span class="text-lg">💸</span><span>Pengeluaran</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="nav-sedekah-subuh" class="w-full text-left py-3 px-4 rounded-lg flex items-center space-x-3 transition duration-200 ease-in-out hover:bg-gray-700 text-gray-300 hover:text-white">
+                            <span class="text-lg">🤲</span><span>Sedekah Subuh</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="nav-laporan" class="w-full text-left py-3 px-4 rounded-lg flex items-center space-x-3 transition duration-200 ease-in-out hover:bg-gray-700 text-gray-300 hover:text-white">
+                            <span class="text-lg">📄</span><span>Laporan</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mt-8">
+                <button id="logout-button" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">
+                    Keluar
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="main-content-area" class="main-content-area">
+            <!-- Content for each page will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Application State
+        const appState = {
+            isLoggedIn: false,
+            currentPage: 'dashboard',
+            pemasukan: [],
+            pengeluaran: [],
+            sedekahSubuh: [],
+            db: null,
+            auth: null,
+            userId: null,
+            isAuthReady: false,
+        };
+
+        // DOM Elements
+        const loginPageContainer = document.getElementById('login-page-container');
+        const appContainer = document.getElementById('app-container');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const mainContentArea = document.getElementById('main-content-area');
+        const logoutButton = document.getElementById('logout-button');
+
+        // Navigation Buttons
+        const navDashboard = document.getElementById('nav-dashboard');
+        const navPemasukan = document.getElementById('nav-pemasukan');
+        const navPengeluaran = document.getElementById('nav-pengeluaran');
+        const navSedekahSubuh = document.getElementById('nav-sedekah-subuh');
+        const navLaporan = document.getElementById('nav-laporan');
+
+        // Utility Function to format Rupiah
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+            }).format(amount);
+        }
+
+        // Utility function to display messages
+        function showMessage(type, message, targetElementId) {
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.innerHTML = `<div class="message-box ${type}">${message}</div>`;
+                targetElement.classList.remove('hidden');
+                setTimeout(() => {
+                    targetElement.classList.add('hidden');
+                    targetElement.innerHTML = '';
+                }, 5000); // Hide after 5 seconds
+            }
+        }
+
+        // --- Firebase Initialization ---
+        async function initializeFirebase() {
+            try {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+                if (Object.keys(firebaseConfig).length > 0) {
+                    const app = initializeApp(firebaseConfig);
+                    appState.db = getFirestore(app);
+                    appState.auth = getAuth(app);
+
+                    onAuthStateChanged(appState.auth, async (user) => {
+                        if (user) {
+                            appState.userId = user.uid;
+                        } else {
+                            try {
+                                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                                    await signInWithCustomToken(appState.auth, __initial_auth_token);
+                                } else {
+                                    await signInAnonymously(appState.auth);
+                                }
+                            } catch (error) {
+                                console.error("Firebase Auth Error:", error);
+                            }
+                        }
+                        appState.isAuthReady = true;
+                        // Once auth is ready, set up Firestore listeners
+                        setupFirestoreListeners();
+                        renderApp(); // Re-render app after auth is ready
+                    });
+                } else {
+                    console.warn("Firebase config not found. Running without Firebase persistence.");
+                    appState.isAuthReady = true;
+                    // If no Firebase, populate dummy data for demonstration
+                    appState.pemasukan = [
+                        { tanggal: '2025-07-20', sumber: 'Infak Harian', jumlah: 50000, keterangan: 'Infak dari jamaah' },
+                        { tanggal: '2025-07-19', sumber: 'Sumbangan Donatur A', jumlah: 200000, keterangan: 'Sumbangan untuk renovasi' },
+                    ];
+                    appState.pengeluaran = [
+                        { tanggal: '2025-07-18', jenis: 'Pembelian Lampu', jumlah: 75000, keterangan: 'Untuk penerangan teras' },
+                        { tanggal: '2025-07-17', jenis: 'Tagihan Listrik', jumlah: 150000, keterangan: 'Bulan Juni' },
+                    ];
+                    appState.sedekahSubuh = [
+                        { tanggal: '2025-07-21', nama: 'Hamba Allah', jumlah: 25000, keterangan: 'Kotak sedekah subuh' },
+                        { tanggal: '2025-07-20', nama: 'Fulan', jumlah: 30000, keterangan: 'Kotak sedekah subuh' },
+                    ];
+                    renderApp(); // Render app with dummy data
+                }
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                appState.isAuthReady = true;
+                renderApp(); // Render app even if Firebase init fails
+            }
+        }
+
+        // --- Firestore Listeners ---
+        function setupFirestoreListeners() {
+            if (appState.db && appState.userId && appState.isAuthReady) {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+                // Pemasukan Listener
+                const pemasukanCollectionRef = collection(appState.db, `artifacts/${appId}/users/${appState.userId}/pemasukan`);
+                const qPemasukan = query(pemasukanCollectionRef, orderBy('tanggal', 'desc'));
+                onSnapshot(qPemasukan, (snapshot) => {
+                    appState.pemasukan = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderCurrentPage(); // Re-render current page to show updated data
+                }, (error) => {
+                    console.error("Error fetching pemasukan:", error);
+                });
+
+                // Pengeluaran Listener
+                const pengeluaranCollectionRef = collection(appState.db, `artifacts/${appId}/users/${appState.userId}/pengeluaran`);
+                const qPengeluaran = query(pengeluaranCollectionRef, orderBy('tanggal', 'desc'));
+                onSnapshot(qPengeluaran, (snapshot) => {
+                    appState.pengeluaran = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderCurrentPage(); // Re-render current page to show updated data
+                }, (error) => {
+                    console.error("Error fetching pengeluaran:", error);
+                });
+
+                // Sedekah Subuh Listener
+                const sedekahSubuhCollectionRef = collection(appState.db, `artifacts/${appId}/users/${appState.userId}/sedekahSubuh`);
+                const qSedekahSubuh = query(sedekahSubuhCollectionRef, orderBy('tanggal', 'desc'));
+                onSnapshot(qSedekahSubuh, (snapshot) => {
+                    appState.sedekahSubuh = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderCurrentPage(); // Re-render current page to show updated data
+                }, (error) => {
+                    console.error("Error fetching sedekah subuh:", error);
+                });
+            }
+        }
+
+        // --- Data Manipulation Functions ---
+        async function addPemasukan(newItem) {
+            if (appState.db && appState.userId) {
+                try {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    await addDoc(collection(appState.db, `artifacts/${appId}/users/${appState.userId}/pemasukan`), {
+                        ...newItem,
+                        timestamp: serverTimestamp()
+                    });
+                    showMessage('success', 'Pemasukan berhasil disimpan!', 'pemasukan-message');
+                } catch (e) {
+                    console.error("Error adding pemasukan document: ", e);
+                    showMessage('error', 'Gagal menyimpan pemasukan. Silakan coba lagi.', 'pemasukan-message');
+                }
+            } else {
+                appState.pemasukan.push(newItem);
+                appState.pemasukan.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                renderPemasukanPage(); // Re-render the page to show new data
+                showMessage('success', 'Pemasukan berhasil disimpan! (Data lokal)', 'pemasukan-message');
+            }
+        }
+
+        async function addPengeluaran(newItem) {
+            if (appState.db && appState.userId) {
+                try {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    await addDoc(collection(appState.db, `artifacts/${appId}/users/${appState.userId}/pengeluaran`), {
+                        ...newItem,
+                        timestamp: serverTimestamp()
+                    });
+                    showMessage('success', 'Pengeluaran berhasil disimpan!', 'pengeluaran-message');
+                } catch (e) {
+                    console.error("Error adding pengeluaran document: ", e);
+                    showMessage('error', 'Gagal menyimpan pengeluaran. Silakan coba lagi.', 'pengeluaran-message');
+                }
+            } else {
+                appState.pengeluaran.push(newItem);
+                appState.pengeluaran.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                renderPengeluaranPage(); // Re-render the page to show new data
+                showMessage('success', 'Pengeluaran berhasil disimpan! (Data lokal)', 'pengeluaran-message');
+            }
+        }
+
+        async function addSedekahSubuh(newItem) {
+            if (appState.db && appState.userId) {
+                try {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    await addDoc(collection(appState.db, `artifacts/${appId}/users/${appState.userId}/sedekahSubuh`), {
+                        ...newItem,
+                        timestamp: serverTimestamp()
+                    });
+                    showMessage('success', 'Sedekah Subuh berhasil disimpan!', 'sedekah-subuh-message');
+                } catch (e) {
+                    console.error("Error adding sedekah subuh document: ", e);
+                    showMessage('error', 'Gagal menyimpan sedekah subuh. Silakan coba lagi.', 'sedekah-subuh-message');
+                }
+            } else {
+                appState.sedekahSubuh.push(newItem);
+                appState.sedekahSubuh.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                renderSedekahSubuhPage(); // Re-render the page to show new data
+                showMessage('success', 'Sedekah Subuh berhasil disimpan! (Data lokal)', 'sedekah-subuh-message');
+            }
+        }
+
+        // --- Rendering Functions ---
+
+        function clearMainContent() {
+            mainContentArea.innerHTML = '';
+        }
+
+        function setActiveNavItem(pageId) {
+            document.querySelectorAll('nav button').forEach(button => {
+                button.classList.remove('bg-green-600', 'text-white', 'shadow-md');
+                button.classList.add('hover:bg-gray-700', 'text-gray-300', 'hover:text-white');
+            });
+            const activeNavButton = document.getElementById(`nav-${pageId}`);
+            if (activeNavButton) {
+                activeNavButton.classList.add('bg-green-600', 'text-white', 'shadow-md');
+                activeNavButton.classList.remove('hover:bg-gray-700', 'text-gray-300', 'hover:text-white');
+            }
+        }
+
+        function renderLoginPage() {
+            loginPageContainer.classList.remove('hidden');
+            appContainer.classList.add('hidden');
+            loginError.classList.add('hidden');
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+
+        function renderApp() {
+            if (appState.isLoggedIn) {
+                loginPageContainer.classList.add('hidden');
+                appContainer.classList.remove('hidden');
+                renderCurrentPage();
+            } else {
+                renderLoginPage();
+            }
+        }
+
+        function renderCurrentPage() {
+            clearMainContent();
+            setActiveNavItem(appState.currentPage);
+
+            switch (appState.currentPage) {
+                case 'dashboard':
+                    renderDashboardPage();
+                    break;
+                case 'pemasukan':
+                    renderPemasukanPage();
+                    break;
+                case 'pengeluaran':
+                    renderPengeluaranPage();
+                    break;
+                case 'sedekah-subuh':
+                    renderSedekahSubuhPage();
+                    break;
+                case 'laporan':
+                    renderLaporanPage();
+                    break;
+                default:
+                    renderDashboardPage();
+            }
+        }
+
+        function renderDashboardPage() {
+            const totalPemasukan = appState.pemasukan.reduce((sum, item) => sum + item.jumlah, 0) +
+                                   appState.sedekahSubuh.reduce((sum, item) => sum + item.jumlah, 0);
+            const totalPengeluaran = appState.pengeluaran.reduce((sum, item) => sum + item.jumlah, 0);
+            const saldoAkhir = totalPemasukan - totalPengeluaran;
+
+            mainContentArea.innerHTML = `
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-8 pb-4 border-b-4 border-green-600">Dashboard</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-green-500">
+                        <h3 class="text-lg font-semibold text-gray-600 mb-2">Total Pemasukan</h3>
+                        <p class="text-3xl font-bold text-green-700">${formatRupiah(totalPemasukan)}</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-red-500">
+                        <h3 class="text-lg font-semibold text-gray-600 mb-2">Total Pengeluaran</h3>
+                        <p class="text-3xl font-bold text-red-700">${formatRupiah(totalPengeluaran)}</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500">
+                        <h3 class="text-lg font-semibold text-gray-600 mb-2">Saldo Akhir</h3>
+                        <p class="text-3xl font-bold ${saldoAkhir >= 0 ? 'text-blue-700' : 'text-red-700'}">
+                            ${formatRupiah(saldoAkhir)}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Pemasukan Terbaru -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Pemasukan Terbaru</h2>
+                        ${appState.pemasukan.length > 0 ? `
+                            <ul class="space-y-4">
+                                ${appState.pemasukan.slice(0, 5).map(item => `
+                                    <li class="flex justify-between items-center py-3 border-b last:border-b-0 border-gray-200">
+                                        <div>
+                                            <p class="font-medium text-gray-900">${item.sumber}</p>
+                                            <p class="text-sm text-gray-500">${new Date(item.tanggal).toLocaleDateString('id-ID')}</p>
+                                        </div>
+                                        <p class="font-semibold text-green-600">${formatRupiah(item.jumlah)}</p>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        ` : `<p class="text-gray-500">Belum ada data pemasukan.</p>`}
+                    </div>
+
+                    <!-- Pengeluaran Terbaru -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Pengeluaran Terbaru</h2>
+                        ${appState.pengeluaran.length > 0 ? `
+                            <ul class="space-y-4">
+                                ${appState.pengeluaran.slice(0, 5).map(item => `
+                                    <li class="flex justify-between items-center py-3 border-b last:border-b-0 border-gray-200">
+                                        <div>
+                                            <p class="font-medium text-gray-900">${item.jenis}</p>
+                                            <p class="text-sm text-gray-500">${new Date(item.tanggal).toLocaleDateString('id-ID')}</p>
+                                        </div>
+                                        <p class="font-semibold text-red-600">${formatRupiah(item.jumlah)}</p>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        ` : `<p class="text-gray-500">Belum ada data pengeluaran.</p>`}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPemasukanPage() {
+            mainContentArea.innerHTML = `
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-8 pb-4 border-b-4 border-green-600">Manajemen Pemasukan</h1>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Tambah Pemasukan Baru</h2>
+                    <div id="pemasukan-message" class="hidden message-box"></div>
+                    <form id="pemasukan-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="tanggalPemasukan" class="block text-sm font-medium text-gray-700 mb-1">
+                                Tanggal
+                            </label>
+                            <input
+                                type="date"
+                                id="tanggalPemasukan"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="sumberPemasukan" class="block text-sm font-medium text-gray-700 mb-1">
+                                Sumber Pemasukan
+                            </label>
+                            <input
+                                type="text"
+                                id="sumberPemasukan"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                placeholder="Contoh: Infak Harian, Sumbangan Donatur"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="jumlahPemasukan" class="block text-sm font-medium text-gray-700 mb-1">
+                                Jumlah (Rp)
+                            </label>
+                            <input
+                                type="number"
+                                id="jumlahPemasukan"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                min="0"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="keteranganPemasukan" class="block text-sm font-medium text-gray-700 mb-1">
+                                Keterangan (Opsional)
+                            </label>
+                            <textarea
+                                id="keteranganPemasukan"
+                                rows="3"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                placeholder="Detail tambahan mengenai pemasukan ini"
+                            ></textarea>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end">
+                            <button
+                                type="submit"
+                                class="inline-flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
+                            >
+                                Simpan Pemasukan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Riwayat Pemasukan</h2>
+                    ${appState.pemasukan.length > 0 ? `
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tanggal
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Sumber
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Jumlah (Rp)
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Keterangan
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    ${appState.pemasukan.map(item => `
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                ${new Date(item.tanggal).toLocaleDateString('id-ID')}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.sumber}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+                                                ${formatRupiah(item.jumlah)}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.keterangan || '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    ` : `<p class="text-gray-500">Belum ada data pemasukan yang tercatat.</p>`}
+                </div>
+            `;
+
+            // Add event listener for the form
+            const pemasukanForm = document.getElementById('pemasukan-form');
+            pemasukanForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const tanggal = document.getElementById('tanggalPemasukan').value;
+                const sumber = document.getElementById('sumberPemasukan').value;
+                const jumlah = document.getElementById('jumlahPemasukan').value;
+                const keterangan = document.getElementById('keteranganPemasukan').value;
+
+                if (!tanggal || !sumber || !jumlah) {
+                    showMessage('error', 'Mohon lengkapi semua field wajib!', 'pemasukan-message');
+                    return;
+                }
+                addPemasukan({
+                    tanggal: tanggal,
+                    sumber: sumber,
+                    jumlah: parseFloat(jumlah),
+                    keterangan: keterangan,
+                });
+                // Reset form fields
+                document.getElementById('tanggalPemasukan').value = '';
+                document.getElementById('sumberPemasukan').value = '';
+                document.getElementById('jumlahPemasukan').value = '';
+                document.getElementById('keteranganPemasukan').value = '';
+            });
+            // Clear message on input change
+            pemasukanForm.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('input', () => {
+                    document.getElementById('pemasukan-message').classList.add('hidden');
+                });
+            });
+        }
+
+        function renderPengeluaranPage() {
+            mainContentArea.innerHTML = `
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-8 pb-4 border-b-4 border-red-600">Manajemen Pengeluaran</h1>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Tambah Pengeluaran Baru</h2>
+                    <div id="pengeluaran-message" class="hidden message-box"></div>
+                    <form id="pengeluaran-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="tanggalPengeluaran" class="block text-sm font-medium text-gray-700 mb-1">
+                                Tanggal
+                            </label>
+                            <input
+                                type="date"
+                                id="tanggalPengeluaran"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="jenisPengeluaran" class="block text-sm font-medium text-gray-700 mb-1">
+                                Jenis Pengeluaran
+                            </label>
+                            <input
+                                type="text"
+                                id="jenisPengeluaran"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                                placeholder="Contoh: Listrik, Air, Kebersihan"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="jumlahPengeluaran" class="block text-sm font-medium text-gray-700 mb-1">
+                                Jumlah (Rp)
+                            </label>
+                            <input
+                                type="number"
+                                id="jumlahPengeluaran"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                                min="0"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="keteranganPengeluaran" class="block text-sm font-medium text-gray-700 mb-1">
+                                Keterangan (Opsional)
+                            </label>
+                            <textarea
+                                id="keteranganPengeluaran"
+                                rows="3"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                                placeholder="Detail tambahan mengenai pengeluaran ini"
+                            ></textarea>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end">
+                            <button
+                                type="submit"
+                                class="inline-flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out"
+                            >
+                                Simpan Pengeluaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Riwayat Pengeluaran</h2>
+                    ${appState.pengeluaran.length > 0 ? `
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tanggal
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Jenis
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Jumlah (Rp)
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Keterangan
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    ${appState.pengeluaran.map(item => `
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                ${new Date(item.tanggal).toLocaleDateString('id-ID')}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.jenis}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">
+                                                ${formatRupiah(item.jumlah)}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.keterangan || '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    ` : `<p class="text-gray-500">Belum ada data pengeluaran yang tercatat.</p>`}
+                </div>
+            `;
+
+            // Add event listener for the form
+            const pengeluaranForm = document.getElementById('pengeluaran-form');
+            pengeluaranForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const tanggal = document.getElementById('tanggalPengeluaran').value;
+                const jenis = document.getElementById('jenisPengeluaran').value;
+                const jumlah = document.getElementById('jumlahPengeluaran').value;
+                const keterangan = document.getElementById('keteranganPengeluaran').value;
+
+                if (!tanggal || !jenis || !jumlah) {
+                    showMessage('error', 'Mohon lengkapi semua field wajib!', 'pengeluaran-message');
+                    return;
+                }
+                addPengeluaran({
+                    tanggal: tanggal,
+                    jenis: jenis,
+                    jumlah: parseFloat(jumlah),
+                    keterangan: keterangan,
+                });
+                // Reset form fields
+                document.getElementById('tanggalPengeluaran').value = '';
+                document.getElementById('jenisPengeluaran').value = '';
+                document.getElementById('jumlahPengeluaran').value = '';
+                document.getElementById('keteranganPengeluaran').value = '';
+            });
+            // Clear message on input change
+            pengeluaranForm.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('input', () => {
+                    document.getElementById('pengeluaran-message').classList.add('hidden');
+                });
+            });
+        }
+
+        function renderSedekahSubuhPage() {
+            mainContentArea.innerHTML = `
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-8 pb-4 border-b-4 border-emerald-600">Pencatatan Sedekah Subuh</h1>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Tambah Sedekah Subuh Baru</h2>
+                    <div id="sedekah-subuh-message" class="hidden message-box"></div>
+                    <form id="sedekah-subuh-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="tanggalSedekah" class="block text-sm font-medium text-gray-700 mb-1">
+                                Tanggal
+                            </label>
+                            <input
+                                type="date"
+                                id="tanggalSedekah"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label for="namaSedekah" class="block text-sm font-medium text-gray-700 mb-1">
+                                Nama (Opsional)
+                            </label>
+                            <input
+                                type="text"
+                                id="namaSedekah"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                placeholder="Contoh: Hamba Allah, Fulan"
+                            />
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="jumlahSedekah" class="block text-sm font-medium text-gray-700 mb-1">
+                                Jumlah (Rp)
+                            </label>
+                            <input
+                                type="number"
+                                id="jumlahSedekah"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                min="0"
+                                required
+                            />
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="keteranganSedekah" class="block text-sm font-medium text-gray-700 mb-1">
+                                Keterangan (Opsional)
+                            </label>
+                            <textarea
+                                id="keteranganSedekah"
+                                rows="3"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                placeholder="Detail tambahan mengenai sedekah subuh ini"
+                            ></textarea>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end">
+                            <button
+                                type="submit"
+                                class="inline-flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-150 ease-in-out"
+                            >
+                                Simpan Sedekah Subuh
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Riwayat Sedekah Subuh</h2>
+                    ${appState.sedekahSubuh.length > 0 ? `
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tanggal
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Nama
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Jumlah (Rp)
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Keterangan
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    ${appState.sedekahSubuh.map(item => `
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                ${new Date(item.tanggal).toLocaleDateString('id-ID')}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.nama || '-'}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-emerald-600 font-semibold">
+                                                ${formatRupiah(item.jumlah)}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.keterangan || '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    ` : `<p class="text-gray-500">Belum ada data sedekah subuh yang tercatat.</p>`}
+                </div>
+            `;
+
+            // Add event listener for the form
+            const sedekahSubuhForm = document.getElementById('sedekah-subuh-form');
+            sedekahSubuhForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const tanggal = document.getElementById('tanggalSedekah').value;
+                const nama = document.getElementById('namaSedekah').value;
+                const jumlah = document.getElementById('jumlahSedekah').value;
+                const keterangan = document.getElementById('keteranganSedekah').value;
+
+                if (!tanggal || !jumlah) {
+                    showMessage('error', 'Mohon lengkapi semua field wajib!', 'sedekah-subuh-message');
+                    return;
+                }
+                addSedekahSubuh({
+                    tanggal: tanggal,
+                    nama: nama,
+                    jumlah: parseFloat(jumlah),
+                    keterangan: keterangan,
+                });
+                // Reset form fields
+                document.getElementById('tanggalSedekah').value = '';
+                document.getElementById('namaSedekah').value = '';
+                document.getElementById('jumlahSedekah').value = '';
+                document.getElementById('keteranganSedekah').value = '';
+            });
+            // Clear message on input change
+            sedekahSubuhForm.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('input', () => {
+                    document.getElementById('sedekah-subuh-message').classList.add('hidden');
+                });
+            });
+        }
+
+        function renderLaporanPage() {
+            // Initial filter values
+            let startDate = '';
+            let endDate = '';
+
+            // Function to filter and render table
+            const updateLaporanTable = () => {
+                const filteredPemasukan = appState.pemasukan.filter(item => {
+                    const itemDate = new Date(item.tanggal);
+                    const start = startDate ? new Date(startDate) : null;
+                    const end = endDate ? new Date(endDate) : null;
+                    return (!start || itemDate >= start) && (!end || itemDate <= end);
+                });
+
+                const filteredPengeluaran = appState.pengeluaran.filter(item => {
+                    const itemDate = new Date(item.tanggal);
+                    const start = startDate ? new Date(startDate) : null;
+                    const end = endDate ? new Date(endDate) : null;
+                    return (!start || itemDate >= start) && (!end || itemDate <= end);
+                });
+
+                const filteredSedekahSubuh = appState.sedekahSubuh.filter(item => {
+                    const itemDate = new Date(item.tanggal);
+                    const start = startDate ? new Date(startDate) : null;
+                    const end = endDate ? new Date(endDate) : null;
+                    return (!start || itemDate >= start) && (!end || itemDate <= end);
+                });
+
+                const allTransactions = [
+                    ...filteredPemasukan.map(item => ({ ...item, type: 'Pemasukan', description: item.sumber, amountClass: 'text-green-600' })),
+                    ...filteredPengeluaran.map(item => ({ ...item, type: 'Pengeluaran', description: item.jenis, amountClass: 'text-red-600' })),
+                    ...filteredSedekahSubuh.map(item => ({ ...item, type: 'Sedekah Subuh', description: item.nama || 'Sedekah Subuh', amountClass: 'text-emerald-600' }))
+                ].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+                const totalPemasukanFiltered = filteredPemasukan.reduce((sum, item) => sum + item.jumlah, 0) +
+                                               filteredSedekahSubuh.reduce((sum, item) => sum + item.jumlah, 0);
+                const totalPengeluaranFiltered = filteredPengeluaran.reduce((sum, item) => sum + item.jumlah, 0);
+                const saldoAkhirFiltered = totalPemasukanFiltered - totalPengeluaranFiltered;
+
+                // Update summary cards
+                document.getElementById('total-pemasukan-filtered').innerText = formatRupiah(totalPemasukanFiltered);
+                document.getElementById('total-pengeluaran-filtered').innerText = formatRupiah(totalPengeluaranFiltered);
+                const saldoAkhirElement = document.getElementById('saldo-akhir-filtered');
+                saldoAkhirElement.innerText = formatRupiah(saldoAkhirFiltered);
+                saldoAkhirElement.classList.remove('text-blue-700', 'text-red-700');
+                saldoAkhirElement.classList.add(saldoAkhirFiltered >= 0 ? 'text-blue-700' : 'text-red-700');
+
+
+                // Update transactions table
+                const transactionsTableBody = document.getElementById('transactions-table-body');
+                if (transactionsTableBody) {
+                    transactionsTableBody.innerHTML = allTransactions.length > 0 ?
+                        allTransactions.map(item => `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    ${new Date(item.tanggal).toLocaleDateString('id-ID')}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.type === 'Pemasukan' ? 'bg-green-100 text-green-800' : item.type === 'Pengeluaran' ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'}">
+                                        ${item.type}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.description}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${item.amountClass}">
+                                    ${formatRupiah(item.jumlah)}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.keterangan || '-'}</td>
+                            </tr>
+                        `).join('') :
+                        `<tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Belum ada data transaksi yang tercatat dalam rentang tanggal ini.</td></tr>`;
+                }
+            };
+
+            mainContentArea.innerHTML = `
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-8 pb-4 border-b-4 border-blue-600">Laporan Kas</h1>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Filter Laporan</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">
+                                Dari Tanggal
+                            </label>
+                            <input
+                                type="date"
+                                id="startDate"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">
+                                Sampai Tanggal
+                            </label>
+                            <input
+                                type="date"
+                                id="endDate"
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                            id="export-pdf-button"
+                            class="inline-flex items-center px-6 py-3 border border-transparent text-lg font-semibold rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+                        >
+                            Export ke PDF
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4">
+                        * Untuk mengedit transaksi individual, silakan kunjungi halaman <span class="font-semibold">Pemasukan</span>, <span class="font-semibold">Pengeluaran</span>, atau <span class="font-semibold">Sedekah Subuh</span>.
+                    </p>
+                </div>
+
+                <div id="laporan-content" class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Ringkasan Laporan</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-green-500">
+                            <h3 class="text-lg font-semibold text-gray-600 mb-2">Total Pemasukan</h3>
+                            <p id="total-pemasukan-filtered" class="text-3xl font-bold text-green-700"></p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-red-500">
+                            <h3 class="text-lg font-semibold text-gray-600 mb-2">Total Pengeluaran</h3>
+                            <p id="total-pengeluaran-filtered" class="text-3xl font-bold text-red-700"></p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500">
+                            <h3 class="text-lg font-semibold text-gray-600 mb-2">Saldo Akhir</h3>
+                            <p id="saldo-akhir-filtered" class="text-3xl font-bold"></p>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Detail Semua Transaksi</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tipe
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Deskripsi
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Jumlah (Rp)
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Keterangan
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Transactions will be loaded here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            // Get filter inputs and export button
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const exportPdfButton = document.getElementById('export-pdf-button');
+
+            // Set initial values if they exist in state or defaults
+            startDateInput.value = startDate;
+            endDateInput.value = endDate;
+
+            // Add event listeners for filter inputs
+            startDateInput.addEventListener('change', (e) => {
+                startDate = e.target.value;
+                updateLaporanTable();
+            });
+            endDateInput.addEventListener('change', (e) => {
+                endDate = e.target.value;
+                updateLaporanTable();
+            });
+
+            // Add event listener for PDF export
+            exportPdfButton.addEventListener('click', () => {
+                const element = document.getElementById('laporan-content');
+                if (element) {
+                    if (typeof html2pdf !== 'undefined') {
+                        html2pdf().from(element).save('Laporan_Kas_Musholla_At-Taubah.pdf');
+                    } else {
+                        console.error("html2pdf.js not loaded. Please ensure the script is included in the HTML head.");
+                        // You might want to display a user-friendly message here if html2pdf is not found
+                        // For example: showMessage('error', 'Pustaka export PDF tidak ditemukan. Silakan refresh halaman.', 'laporan-message');
+                    }
+                }
+            });
+
+            // Initial render of the table with current filter values
+            updateLaporanTable();
+        }
+
+        // --- Event Listeners for Navigation and Login ---
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            if (username === 'admin' && password === 'admin123') {
+                appState.isLoggedIn = true;
+                renderApp();
+            } else {
+                loginError.textContent = 'Username atau password salah!';
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        logoutButton.addEventListener('click', () => {
+            appState.isLoggedIn = false;
+            // Optionally sign out from Firebase
+            if (appState.auth) {
+                appState.auth.signOut().catch(e => console.error("Error signing out:", e));
+            }
+            appState.currentPage = 'dashboard'; // Reset page
+            renderApp();
+        });
+
+        navDashboard.addEventListener('click', () => {
+            appState.currentPage = 'dashboard';
+            renderCurrentPage();
+        });
+
+        navPemasukan.addEventListener('click', () => {
+            appState.currentPage = 'pemasukan';
+            renderCurrentPage();
+        });
+
+        navPengeluaran.addEventListener('click', () => {
+            appState.currentPage = 'pengeluaran';
+            renderCurrentPage();
+        });
+
+        navSedekahSubuh.addEventListener('click', () => {
+            appState.currentPage = 'sedekah-subuh';
+            renderCurrentPage();
+        });
+
+        navLaporan.addEventListener('click', () => {
+            appState.currentPage = 'laporan';
+            renderCurrentPage();
+        });
+
+        // Initial application setup
+        window.onload = () => {
+            initializeFirebase(); // This will call renderApp() once auth is ready
+        };
+
+    </script>
+    <!-- html2pdf.js CDN (placed here to ensure it's loaded before the module script potentially uses it) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>
